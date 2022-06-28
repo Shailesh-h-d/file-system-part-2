@@ -11,7 +11,6 @@ var csvfile = 'information.csv';
 
 //read file using fs
 router.post('/read', (req, res) => {
-    console.log(req.files.csv_file.data);
     fs.writeFileSync('./filesystemCRUD/incomingData.csv', req.files.csv_file.data, (err) => {
         if(err) throw err;
     })
@@ -21,9 +20,12 @@ router.post('/read', (req, res) => {
             fs.unlinkSync('./filesystemCRUD/incomingData.csv', (err) => {
                 if(err) throw err;
             });
+            fs.writeFile('information.csv', "", (err) => {
+                console.log("inside write file");
+                if(err) throw err;
+            })
             return res.send(result);
         })
-    
 });
 
 router.post('/add', (req, res) => {
